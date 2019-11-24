@@ -13,8 +13,8 @@
 
 #define SAP 21700
 #define SBP 22700
-#define AUP 23700
-#define ATP 24700
+#define AWSUPORT 23700
+#define AWSTPORT 24700
 #define LIP "127.0.0.1"
 
 #define MAXLINE 1024
