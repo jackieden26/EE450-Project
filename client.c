@@ -82,9 +82,11 @@ int main(int argc, char const *argv[]) {
     exit(1);
   }
 
+  printf("The client has sent query to AWS using TCP: start vertex "
+    "%d; map %c; file size %ld.\n", query.srcVertex, query.mapid, query.fileSize);
 
-  printf("my ip is: %s\n", inet_ntoa(mySock2.sin_addr));
-  printf("my port is: %d\n", ntohs(mySock2.sin_port));
+  // printf("my ip is: %s\n", inet_ntoa(mySock2.sin_addr));
+  // printf("my port is: %d\n", ntohs(mySock2.sin_port));
 
   close(mySockFd);
   return 0;
