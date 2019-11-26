@@ -16,7 +16,12 @@
 struct clientQuery {
   char mapid;
   int srcVertex;
-  long int fileSize;
+  double fileSize;
+};
+
+struct destLen {
+  int dest;
+  int len;
 };
 
 int main(int argc, char const *argv[]) {
@@ -36,7 +41,7 @@ int main(int argc, char const *argv[]) {
   struct clientQuery query;
   query.mapid = argv[1][0];
   query.srcVertex = atoi(argv[2]);
-  query.fileSize = atol(argv[3]);
+  sscanf(argv[3], "%lf", &(query.fileSize));
 
   // Establish TCP connection with AWS.
   // First to create client's own socket.
@@ -83,10 +88,46 @@ int main(int argc, char const *argv[]) {
   }
 
   printf("The client has sent query to AWS using TCP: start vertex "
-    "%d; map %c; file size %ld.\n", query.srcVertex, query.mapid, query.fileSize);
+    "%d; map %c; file size %.0lf.\n", query.srcVertex, query.mapid, query.fileSize);
 
   // printf("my ip is: %s\n", inet_ntoa(mySock2.sin_addr));
   // printf("my port is: %d\n", ntohs(mySock2.sin_port));
+
+  //--------------------------Receive message from AWS-------------------------
+  int arrayLen = 0;
+
+  retval = recv(mySockFd, &arrayLen, sizeof(arrayLen), 0);
+  printf("retval is: %d\n", retval);
+  if (arrayLen == 0) {
+    perror("client recv fail");
+    exit(1);
+  }
+
+  struct destLen destLenArray[arrayLen];
+  double tranTime[arrayLen];
+  double propTime[arrayLen];
+  double delay[arrayLen];
+  recv(mySockFd, destLenArray, arrayLen * (sizeof(struct destLen)), 0);
+  recv(mySockFd, tranTime, sizeof(tranTime), 0);
+  recv(mySockFd, propTime, sizeof(propTime), 0);
+  recv(mySockFd, delay, sizeof(delay), 0);
+
+  printf("The client has received results from AWS: \n");
+  printf("----------------------\n");
+  printf("Destination Min Length  Tt    Tp    Delay\n");
+  printf("----------------------\n");
+  for (size_t i = 0; i < arrayLen; i++) {
+    printf("%d    %d        %.2f   %.2f   %.2f\n",
+      destLenArray[i].dest, destLenArray[i].len, tranTime[i], propTime[i], delay[i]);
+  }
+
+  printf("----------------------\n");
+
+
+
+
+
+
 
   close(mySockFd);
   return 0;
