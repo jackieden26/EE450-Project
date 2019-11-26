@@ -11,7 +11,6 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-
 #define SAP 21700
 #define SBP 22700
 #define AWSUPORT 23700

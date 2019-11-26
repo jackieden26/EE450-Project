@@ -11,7 +11,6 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-
 #define SAP 21700
 #define SBP 22700
 #define AWSUPORT 23700
@@ -149,19 +148,6 @@ void mapConstructionPrint(int mapNum, struct cityMap* cityMaps) {
   }
   printf("------------------------------\n");
 }
-
-// int getSmallestIndex(int array[], int arrayLen) {
-//   int smallest = -1;
-//   int smallestIndex = -1;
-//   for (size_t i = 0; i < arrayLen; i++) {
-//     int e = array[i];
-//     if (e != -1 && (smallest == -1 || e < smallest)) {
-//       smallest = e;
-//       smallestIndex = i;
-//     }
-//   }
-//   return smallestIndex;
-// }
 
 void pathFindingAndPrinting(int srcLabel, struct cityMap* city,
     struct destLen* destLenArray) {
@@ -313,22 +299,6 @@ int main() {
   int mapNum = mapConstruction(cityMaps);
   mapConstructionPrint(mapNum, cityMaps);
 
-  // for (size_t i = 0; i < mapNum; i++) {
-  //   printf("propSpeed is: %f\n", cityMaps[i].propSpeed);
-  //   printf("tranSpeed is: %f\n", cityMaps[i].tranSpeed);
-  //   printf("vertexNum is: %d\n", cityMaps[i].vertexNum);
-  //   for (size_t j = 0; j < 10; j++) {
-  //     printf("labelArray element is: %d\n", cityMaps[i].labelArray[j]);
-  //   }
-  //   printf("adjacency matrix: \n");
-  //   for (size_t j = 0; j < 10; j++) {
-  //     for (size_t k = 0; k < 10; k++) {
-  //       printf("%d ", cityMaps[i].adjMatrix[j][k]);
-  //     }
-  //     printf("\n");
-  //   }
-  // }
-
   // Prepare AWS socket.
   int WSockLen = 0;
   struct sockaddr_in WSock;
@@ -339,7 +309,6 @@ int main() {
   WSock.sin_addr.s_addr = inet_addr(LIP);
 
   while (true) {
-
     // Receive info from AWS.
     struct AQuery awsToAMsg;
     recvfrom(sockFd, &awsToAMsg, sizeof(awsToAMsg), 0,
@@ -372,7 +341,6 @@ int main() {
         break;
       }
     }
-
   }
 
   close(sockFd);

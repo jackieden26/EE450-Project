@@ -7,11 +7,13 @@ all: serverA.c serverB.c aws.c client.c
 .PHONY: serverA serverB aws
 
 serverA:
-			./serverA
-serverB: serverB
-			./serverB
-aws: aws
-			./aws
+			@./serverA
+
+serverB:
+			@./serverB
+
+aws:
+			@./aws
 
 clean:
 			rm -f serverA serverB aws client

@@ -55,9 +55,6 @@ int main(int argc, char const *argv[]) {
 
   struct sockaddr_in mySock;
   memset(&mySock, 0, sizeof(mySock));
-  // mySock.sin_family = AF_INET;
-  // mySock.sin_port = 0;
-  // mySock.sin_addr.s_addr = inet_addr(LIP);
 
   // Then connect it to AWS server.
   struct sockaddr_in AWSock;
@@ -89,9 +86,6 @@ int main(int argc, char const *argv[]) {
 
   printf("The client has sent query to AWS using TCP: start vertex "
     "%d; map %c; file size %.0lf.\n", query.srcVertex, query.mapid, query.fileSize);
-
-  // printf("my ip is: %s\n", inet_ntoa(mySock2.sin_addr));
-  // printf("my port is: %d\n", ntohs(mySock2.sin_port));
 
   //--------------------------Receive message from AWS-------------------------
   int arrayLen = 0;

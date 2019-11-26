@@ -10,7 +10,6 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-
 #define SAP 21700  // Server A port number.
 #define SBP 22700  // Server B port number.
 #define AWSUPORT 23700  // AWS UDP port number.
@@ -66,7 +65,7 @@ int main() {
 		exit(1);
 	}
 
-	retval = listen(tcpFd, 5);
+	retval = listen(tcpFd, 15);
 	if (retval < 0) {
 		perror("listen fail");
 	}
@@ -120,14 +119,12 @@ int main() {
 
 
   while (true) {
-
     // Accept the connection from the client.
     int childSockFd = accept(tcpFd, (struct sockaddr *)&clientSock, &clientSockLen);
     if (childSockFd <= 0) {
       perror("accept failed");
       exit(1);
     }
-
 
   	retval = recv(childSockFd, &clientToAWSMsg, sizeof(clientToAWSMsg), 0);
   	if (retval < 0) {
@@ -139,11 +136,6 @@ int main() {
         "from the client using TCP over port %d\n",\
         clientToAWSMsg.mapid, clientToAWSMsg.srcVertex, \
         clientToAWSMsg.fileSize, AWSTPORT);
-
-  	// printf("mapid is: %s\n", clientToAWSMsg[1]);
-  	// printf("srcVertex is: %d\n", atoi(clientToAWSMsg[2]));
-  	// printf("fileSize is: %ld\n", atol(clientToAWSMsg[3]));
-
 
     // -----------------Finished with client, begin server A.------------------
 
@@ -200,7 +192,7 @@ int main() {
       (struct sockaddr *)&sockB, sizeof(sockB));
 
     printf("The AWS has sent path length, propagation speed and transmission "
-      "speed to server B using UDP over port %d.", AWSUPORT);
+      "speed to server B using UDP over port %d.\n", AWSUPORT);
 
     // Receive calculation result from B.
     double tranTime[awsToBMsg.arrayLen];
@@ -226,15 +218,14 @@ int main() {
 
     // -----------------Finished with server B, begin client.------------------
 
-    // First, send number of dest, which is arrayLen.
-
-    retval = send(childSockFd, &arrayLen, sizeof(arrayLen), 0);
+    // Send number of dest first, which is arrayLen.
+    send(childSockFd, &arrayLen, sizeof(arrayLen), 0);
     send(childSockFd, destLenArray, sizeof(destLenArray), 0);
     send(childSockFd, tranTime, sizeof(tranTime), 0);
     send(childSockFd, propTime, sizeof(propTime), 0);
     send(childSockFd, delay, sizeof(delay), 0);
-    printf("The AWS has sent calculated delay to client using TCP over " \
-      "port %d", AWSTPORT);
+    printf("The AWS has sent calculated delay to client using TCP over "
+      "port %d. \n", AWSTPORT);
 
   }
 
