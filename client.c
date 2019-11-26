@@ -97,11 +97,6 @@ int main(int argc, char const *argv[]) {
   int arrayLen = 0;
 
   retval = recv(mySockFd, &arrayLen, sizeof(arrayLen), 0);
-  printf("retval is: %d\n", retval);
-  if (arrayLen == 0) {
-    perror("client recv fail");
-    exit(1);
-  }
 
   struct destLen destLenArray[arrayLen];
   double tranTime[arrayLen];
@@ -117,7 +112,7 @@ int main(int argc, char const *argv[]) {
   printf("Destination Min Length  Tt    Tp    Delay\n");
   printf("----------------------\n");
   for (size_t i = 0; i < arrayLen; i++) {
-    printf("%d    %d        %.2f   %.2f   %.2f\n",
+    printf("%d         %d        %.2f   %.2f   %.2f\n",
       destLenArray[i].dest, destLenArray[i].len, tranTime[i], propTime[i], delay[i]);
   }
 

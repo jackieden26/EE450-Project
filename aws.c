@@ -227,25 +227,12 @@ int main() {
     // -----------------Finished with server B, begin client.------------------
 
     // First, send number of dest, which is arrayLen.
-    printf("arrayLen is: %d\n", arrayLen);
-    printf("tcpFd is: %d\n", tcpFd);
 
-    retval = write(tcpFd, &arrayLen, sizeof(arrayLen));
-    if (retval <= 0) {
-      perror("write fail");
-    }
-    // retval = send(tcpFd, &arrayLen, sizeof(arrayLen), 0);
-    // perror("aws send to client something wrong");
-    // printf("retval is: %d\n", retval);
-    // if (retval <= 0) {
-    //   perror("aws send to client fail");
-    //   exit(1);
-    // }
-    // printf("aws goes here\n");
-    // send(tcpFd, destLenArray, sizeof(destLenArray), 0);
-    // send(tcpFd, tranTime, sizeof(tranTime), 0);
-    // send(tcpFd, propTime, sizeof(propTime), 0);
-    // send(tcpFd, delay, sizeof(delay), 0);
+    retval = send(childSockFd, &arrayLen, sizeof(arrayLen), 0);
+    send(childSockFd, destLenArray, sizeof(destLenArray), 0);
+    send(childSockFd, tranTime, sizeof(tranTime), 0);
+    send(childSockFd, propTime, sizeof(propTime), 0);
+    send(childSockFd, delay, sizeof(delay), 0);
     printf("The AWS has sent calculated delay to client using TCP over " \
       "port %d", AWSTPORT);
 
