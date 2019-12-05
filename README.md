@@ -1,9 +1,5 @@
 # EE 550 Socket Programming Project
 
-## Author Info
-Full Name: Yu Deng
-Student ID: 3837426700
-
 ## Project File Overview
 This is a socket programming project written in c. In this project, two TCP
 sockets and three UDP sockets are made for host message exchange. The
